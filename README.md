@@ -15,14 +15,43 @@ Or a single skill:
 ```bash
 npx skills add LiformaLtd/agent-skills --skill liforma-integrate
 npx skills add LiformaLtd/agent-skills --skill liforma-debug
+npx skills add LiformaLtd/agent-skills --skill liforma-demo
 ```
 
 ## Skills
 
 | Skill | When to use |
 |-------|-------------|
-| `liforma-integrate` | Embed an avatar experience, choose mint path, pick Svelte / React / Next / vanilla |
-| `liforma-debug` | Silent avatar, auth/CORS errors, audio unlock, wrong CDN URL, mint failures |
+| `liforma-demo` | Try / clone a curated example before building from scratch |
+| `liforma-integrate` | Embed an Experience: mint path, Svelte/React/Next/vanilla, Thumbnail/Widget |
+| `liforma-debug` | Silent avatar, auth/CORS, audio unlock, wrong CDN URL, mint failures |
+
+`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces) so the main skill stays short.
+
+## Quick reference
+
+| Task | Skill |
+|------|-------|
+| "Show me a Liforma demo" | `liforma-demo` |
+| Corner chat widget | `liforma-demo` → experience-widget, or integrate → Widget |
+| Lesson / tutor app | `liforma-demo` → spanish-tutor / guided-practice |
+| Production embed with API key | `liforma-integrate` → server mint |
+| Static site / allowlisted origin | `liforma-integrate` → browser mint |
+| Avatar silent / 403 on mint | `liforma-debug` |
+
+## Example prompts
+
+```
+"What Liforma examples can I run locally?"
+
+"Add a Liforma avatar to my SvelteKit app"
+
+"Embed exp_… with a server session endpoint in Next.js"
+
+"My public-sessions mint returns 403"
+
+"Clone the basic-embed example and point it at my experience id"
+```
 
 ## Canonical docs (do not invent APIs)
 

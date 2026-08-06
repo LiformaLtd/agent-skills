@@ -105,6 +105,8 @@ Follow the reference guide. Shared principles for **every** path:
 
 - Prefer server mint when a backend exists; `/public-sessions` name is historical.
 - Do not invent top-level TTS/avatar helpers outside `Experience`.
+- Public speech is **`experience.speech.*` only** (`speak` / `play` / `createUtterance` / `interrupt`) — never invent `experience.speak` or provider-specific audio helpers.
+- BYO voice (ElevenLabs, OpenAI, Deepgram, …): mint with `externalSpeechAudio`; stream PCM via `createUtterance` or play encoded/URL/MediaStreamTrack — see https://docs.liforma.ai/avatar-experiences/bring-your-own-voice
 - `modeChange` payload is a bare string: `'listening' | 'speaking' | 'thinking'`.
 - `ConversationMessage` uses `status: 'final'`, not `final: boolean`.
 - Player `close` / `onStateUpdate` come from `attach()` / component props, not only `experience.on()`.
@@ -114,6 +116,8 @@ Follow the reference guide. Shared principles for **every** path:
 
 - https://docs.liforma.ai/llms.txt  
 - https://docs.liforma.ai/getting-started/quick-start  
+- https://docs.liforma.ai/avatar-experiences/bring-your-own-voice  
+- https://docs.liforma.ai/avatar-experiences/experience-api  
 - https://www.npmjs.com/package/@liforma/client  
 - [references/server-mint.md](references/server-mint.md)  
 - [references/browser-mint.md](references/browser-mint.md)  

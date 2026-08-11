@@ -87,9 +87,9 @@ Silent logic bugs — no HTTP error:
 
 - No `Liforma.textToSpeech()` — use `Experience` + modes / `speak()`, or BYO `connect*` helpers.  
 - Do not invent custom vendor bridges when `@liforma/client/{elevenlabs,openai,…}` exists.  
-- `modeChange` is a bare string: `'listening' | 'speaking' | 'thinking'`.  
+- Prefer `activityChange` envelope (`data`: `'idle' | 'listening' | 'thinking' | 'speaking'`).  
 - `ConversationMessage.status === 'final'` (not `final: boolean`).  
-- `close` / `onStateUpdate` from attach / component props.
+- `close` / `onPlayerStatusChange` from attach / component props.
 
 ## Widget / thumbnail
 

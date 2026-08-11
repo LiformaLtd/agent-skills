@@ -16,6 +16,7 @@ metadata:
 
 Curated runnable apps live in **https://github.com/LiformaLtd/examples.liforma.ai**  
 Gallery: **https://examples.liforma.ai**  
+Hosted demos: **https://{slug}.examples.liforma.ai/** (SvelteKit; Deepgram/Gemini show a clone-local notice)  
 Live Meet avatars: **https://www.liforma.ai/meet**
 
 This skill chooses an example and drives clone/adapt. Deep integration rules still come from `liforma-integrate` and https://docs.liforma.ai/llms.txt.
@@ -35,26 +36,26 @@ Do the mechanical work (clone, install, point at the right folder). Do not claim
 
 Show this table unless they already named one:
 
-| # | Example | Kind | Best when | Frameworks (repo) | Local port |
-|---|---------|------|-----------|-------------------|------------|
-| 1 | **basic-embed** | embed | Fastest hello world | SvelteKit, vanilla, Next, React Vite | 4001 |
-| 2 | **experience-widget** | widget | Corner launcher / support-style UI | vanilla | 4002 |
-| 3 | **spanish-tutor** | lessons | Multi-lesson app, close-before-switch | SvelteKit, vanilla | 4003 |
-| 4 | **guided-practice** | presenter | `speak()` + manual listen / tutor lines | SvelteKit, vanilla, Next, React Vite | 4004 |
-| 5 | **speak-playground** | presenter | Experiment with speak API | (see repo gallery) | 4005 |
-| 6 | **elevenlabs-embed** | BYO | ElevenLabs Agents → avatar | SvelteKit, vanilla, Next, React Vite | 4006 |
-| 7 | **openai-realtime-embed** | BYO | OpenAI Realtime → avatar | SvelteKit, vanilla, Next, React Vite | 4007 |
-| 8 | **deepgram-embed** | BYO | Deepgram Voice Agent → avatar (WS proxy) | SvelteKit, vanilla, Next, React Vite | 4008 |
-| 9 | **livekit-embed** | BYO | LiveKit remote agent audio → avatar | SvelteKit, vanilla, Next, React Vite | 4009 |
-| 10 | **gemini-live-embed** | BYO | Gemini Live → avatar (WS proxy) | SvelteKit, vanilla, Next, React Vite | 4010 |
+| # | Example | Kind | Best when | Local | Hosted |
+|---|---------|------|-----------|-------|--------|
+| 1 | **basic-embed** | embed | Fastest hello world | 4001 | [live](https://basic-embed.examples.liforma.ai/) |
+| 2 | **experience-widget** | widget | Corner launcher / support-style UI | 4002 | [live](https://experience-widget.examples.liforma.ai/) |
+| 3 | **spanish-tutor** | lessons | Multi-lesson app, close-before-switch | 4003 | [live](https://spanish-tutor.examples.liforma.ai/) |
+| 4 | **guided-practice** | presenter | `speak()` + manual listen / tutor lines | 4004 | [live](https://guided-practice.examples.liforma.ai/) |
+| 5 | **speak-playground** | presenter | Experiment with speak API | 4005 | [live](https://speak-playground.examples.liforma.ai/) |
+| 6 | **elevenlabs-embed** | BYO | ElevenLabs Agents → avatar | 4006 | [live](https://elevenlabs-embed.examples.liforma.ai/) |
+| 7 | **openai-realtime-embed** | BYO | OpenAI Realtime → avatar | 4007 | [live](https://openai-realtime-embed.examples.liforma.ai/) |
+| 8 | **deepgram-embed** | BYO | Deepgram Voice Agent → avatar (WS proxy) | 4008 | [notice](https://deepgram-embed.examples.liforma.ai/) — clone locally |
+| 9 | **livekit-embed** | BYO | LiveKit remote agent audio → avatar | 4009 | [live](https://livekit-embed.examples.liforma.ai/) |
+| 10 | **gemini-live-embed** | BYO | Gemini Live → avatar (WS proxy) | 4010 | [notice](https://gemini-live-embed.examples.liforma.ai/) — clone locally |
 
 Routing:
 
-- "Just show me anything" → **1**  
+- "Just show me anything" → **1** (prefer hosted URL when they only want to look)  
 - "Floating chat widget" → **2**  
 - "Lessons / education app" → **3**  
 - "Scripted tutor turns / speak API" → **4** or **5**  
-- "ElevenLabs / OpenAI / Deepgram / LiveKit / Gemini + Liforma avatar" → **6–10** (copy `helloByo.ts`)  
+- "ElevenLabs / OpenAI / Deepgram / LiveKit / Gemini + Liforma avatar" → **6–10** (copy `helloByo.ts`; Deepgram/Gemini need local for Connect)  
 - Evaluating Meet only (no code) → send them to https://www.liforma.ai/meet and stop
 
 ## Step 2 — Get credentials / origins early

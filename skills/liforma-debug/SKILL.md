@@ -2,13 +2,14 @@
 name: liforma-debug
 description: >
   Troubleshoot Liforma Experience embeds. Use when the avatar is silent, the iframe is blank,
-  audio does not play, speak() does nothing, sessions fail to start, mint returns 401/403,
-  CORS/Origin errors appear, events look wrong, the wrong CDN script is loaded, or Widget/Thumbnail
-  misbehaves. Also use for "Liforma not working", "manifest error", or "public-sessions failed".
+  audio does not play, speak() does nothing, BYO connect* lipsync fails, sessions fail to start,
+  mint returns 401/403, CORS/Origin errors appear, events look wrong, the wrong CDN script is
+  loaded, or Widget/Thumbnail misbehaves. Also use for "Liforma not working", "manifest error",
+  or "public-sessions failed".
 license: MIT
 metadata:
   author: liforma
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Liforma debugging
@@ -58,11 +59,22 @@ Symptom → most likely cause → fix. Prefer shipped docs over inventing APIs.
 **Most likely: autoplay / audio not unlocked yet.**
 
 1. User gesture / player start must unlock audio.  
-2. Call `speak()` only after started (`onStarted` / equivalent).  
+2. Call `speak()` / `connect*` only after started (`onStarted` / equivalent).  
 3. Mode must support speech (presenter / conversation per docs).  
 4. OS/browser mic mute only matters for **listening**, not for playback of `speak()`.
 
 Docs: [Experience API](https://docs.liforma.ai/avatar-experiences/experience-api) · [Events](https://docs.liforma.ai/avatar-experiences/events)
+
+## BYO voice connected but mouth/audio wrong
+
+| Symptom | Check |
+|---------|--------|
+| No mouth / silent avatar | Session has `externalSpeechAudio`? Helper called **after** audio unlock? |
+| Double voice | Vendor `<audio>` / LiveKit attach still playing — mute vendor speaker; only Liforma plays |
+| Deepgram / Gemini never connects | Same-origin **WS proxy** running? Key stays on server |
+| Weak lipsync | Prefer helper + transcript path; sample rate must be known before PCM write |
+
+Prefer shipped `connect*` helpers and the example `helloByo.ts` — see integrate [byo-voice.md](../liforma-integrate/references/byo-voice.md).
 
 ## Wrong or ancient CDN script
 
@@ -73,7 +85,8 @@ Docs: [Experience API](https://docs.liforma.ai/avatar-experiences/experience-api
 
 Silent logic bugs — no HTTP error:
 
-- No `Liforma.textToSpeech()` — use `Experience` + modes / `speak()`.  
+- No `Liforma.textToSpeech()` — use `Experience` + modes / `speak()`, or BYO `connect*` helpers.  
+- Do not invent custom vendor bridges when `@liforma/client/{elevenlabs,openai,…}` exists.  
 - `modeChange` is a bare string: `'listening' | 'speaking' | 'thinking'`.  
 - `ConversationMessage.status === 'final'` (not `final: boolean`).  
 - `close` / `onStateUpdate` from attach / component props.
@@ -93,4 +106,4 @@ Switching `experienceId` mid-flight without closing the session causes confusing
 
 1. Diff against https://github.com/LiformaLtd/examples.liforma.ai for the same framework.  
 2. Try Meet: https://www.liforma.ai/meet  
-3. Use skill `liforma-integrate` references (`server-mint`, `browser-mint`) to re-validate the pathway.  
+3. Use skill `liforma-integrate` references (`server-mint`, `browser-mint`, `byo-voice`) to re-validate the pathway.  

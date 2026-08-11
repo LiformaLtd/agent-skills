@@ -6,11 +6,13 @@ description: >
   APIs. Use when: (1) embedding a talking avatar or Experience, (2) adding @liforma/client,
   (3) minting sessions / sessionEndpoint / public-sessions, (4) ExperienceThumbnail or
   ExperienceWidget, (5) user mentions Liforma, Session Manifest, exp_ ids, or lip-synced avatar
-  in a web app, (6) migrating from a CDN script tag to the npm package.
+  in a web app, (6) migrating from a CDN script tag to the npm package, (7) bring-your-own voice
+  (ElevenLabs, OpenAI Realtime, Deepgram, Gemini Live, LiveKit) via @liforma/client connect*
+  helpers / externalSpeechAudio / createUtterance.
 license: MIT
 metadata:
   author: liforma
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Liforma integration
@@ -44,9 +46,10 @@ Scan the codebase **before** asking. Do not ask questions the repo already answe
 Ask as **one short checklist**, not one-at-a-time:
 
 ```
-1. Goal? (support widget, lesson tutor, marketing embed, presenter / speak API, …)
+1. Goal? (support widget, lesson tutor, marketing embed, presenter / speak API, BYO vendor voice, …)
 2. Do you have a backend that can hold an API key?
 3. Framework preference if the repo is ambiguous?
+4. Who owns speech? (Liforma TTS via speak(), or an external vendor → BYO)
 ```
 
 ## Step 2 — Pick ONE pathway (simplest that works)
@@ -54,6 +57,9 @@ Ask as **one short checklist**, not one-at-a-time:
 Do not dump every option. Choose and explain in 2–3 sentences.
 
 ```
+External speech vendor (ElevenLabs / OpenAI / Deepgram / Gemini / LiveKit / PCM)?
+  → BYO VOICE  (externalSpeechAudio + connect* helper; see byo-voice.md)
+
 Has a backend that can keep secrets?
   → SERVER MINT  (POST /v1/sessions + same-origin sessionEndpoint)
 
@@ -71,6 +77,7 @@ Then pick the SDK surface for the host framework (see [references/surfaces.md](r
 
 | Pathway | Read next |
 |---------|-----------|
+| BYO voice | [references/byo-voice.md](references/byo-voice.md) |
 | Server mint | [references/server-mint.md](references/server-mint.md) |
 | Browser mint | [references/browser-mint.md](references/browser-mint.md) |
 | Surfaces / hello world | [references/surfaces.md](references/surfaces.md) |
@@ -105,8 +112,9 @@ Follow the reference guide. Shared principles for **every** path:
 
 - Prefer server mint when a backend exists; `/public-sessions` name is historical.
 - Do not invent top-level TTS/avatar helpers outside `Experience`.
-- Public speech is **`experience.speech.*` only** (`speak` / `play` / `createUtterance` / `interrupt`) — never invent `experience.speak` or provider-specific audio helpers.
-- BYO voice (ElevenLabs, OpenAI, Deepgram, …): mint with `externalSpeechAudio`; stream PCM via `createUtterance` or play encoded/URL/MediaStreamTrack — see https://docs.liforma.ai/avatar-experiences/bring-your-own-voice
+- Public speech is **`experience.speech.*`** (`speak` / `play` / `createUtterance` / `interrupt`) — never invent `experience.speak`.
+- **BYO voice:** prefer shipped helpers `@liforma/client/{elevenlabs,openai,deepgram,google,livekit}` (`connect*`). Do **not** invent alternate provider bridges or skip helpers to hand-roll WebSockets. Copy `helloByo.ts` from the matching `*-embed` example. Details: [references/byo-voice.md](references/byo-voice.md).
+- Deepgram / Gemini need a same-origin WebSocket proxy (BFF); examples document this — do not put vendor API keys in the browser.
 - `modeChange` payload is a bare string: `'listening' | 'speaking' | 'thinking'`.
 - `ConversationMessage` uses `status: 'final'`, not `final: boolean`.
 - Player `close` / `onStateUpdate` come from `attach()` / component props, not only `experience.on()`.
@@ -119,8 +127,9 @@ Follow the reference guide. Shared principles for **every** path:
 - https://docs.liforma.ai/avatar-experiences/bring-your-own-voice  
 - https://docs.liforma.ai/avatar-experiences/experience-api  
 - https://www.npmjs.com/package/@liforma/client  
+- [references/byo-voice.md](references/byo-voice.md)  
 - [references/server-mint.md](references/server-mint.md)  
 - [references/browser-mint.md](references/browser-mint.md)  
 - [references/surfaces.md](references/surfaces.md)  
-- Skill `liforma-demo` if they want a runnable example first  
+- Skill `liforma-demo` if they want a runnable example first (including `*-embed` BYO demos)  
 - Skill `liforma-debug` if mint / audio / iframe fails  

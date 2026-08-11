@@ -9,8 +9,10 @@ npm: https://www.npmjs.com/package/@liforma/client
 | Next.js App Router | `@liforma/client/next` | Client components + `createLiformaSessionRouteHandler` |
 | JS API | `@liforma/client` | `Experience.startSession`, `attach`, types |
 | Vanilla / no bundler | CDN IIFE | `https://cdn.liforma.ai/sdk/v2/client.js` → `<liforma-experience>` |
+| BYO shared | `@liforma/client/byo` | PCM / mic / `createTurnSession` (power users + helpers) |
+| BYO vendors | `/elevenlabs` `/openai` `/deepgram` `/google` `/livekit` | `connect*` helpers — see [byo-voice.md](byo-voice.md) |
 
-Optional peers: `svelte` ^5; `react` / `react-dom` ^18 \|\| ^19.
+Optional peers: `svelte` ^5; `react` / `react-dom` ^18 \|\| ^19; `@elevenlabs/client` for `/elevenlabs`; `livekit-client` for `/livekit`.
 
 ## Hello world (browser mint)
 

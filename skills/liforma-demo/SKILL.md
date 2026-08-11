@@ -2,13 +2,14 @@
 name: liforma-demo
 description: >
   Spin up or adapt a curated Liforma example — basic embed, experience widget, Spanish Tutor,
-  guided practice, or speak playground. Use when the user wants to try Liforma, see a demo,
-  clone an example, get something running before writing a custom integration, or asks what
-  examples exist. Prefer this before greenfield when they only need a working reference.
+  guided practice, speak playground, or BYO voice embeds (ElevenLabs, OpenAI Realtime, Deepgram,
+  LiveKit, Gemini Live). Use when the user wants to try Liforma, see a demo, clone an example,
+  get something running before writing a custom integration, or asks what examples exist.
+  Prefer this before greenfield when they only need a working reference.
 license: MIT
 metadata:
   author: liforma
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Liforma demos / examples
@@ -36,11 +37,16 @@ Show this table unless they already named one:
 
 | # | Example | Kind | Best when | Frameworks (repo) | Local port |
 |---|---------|------|-----------|-------------------|------------|
-| 1 | **basic-embed** | embed | Fastest hello world | SvelteKit, vanilla | 4001 |
+| 1 | **basic-embed** | embed | Fastest hello world | SvelteKit, vanilla, Next, React Vite | 4001 |
 | 2 | **experience-widget** | widget | Corner launcher / support-style UI | vanilla | 4002 |
 | 3 | **spanish-tutor** | lessons | Multi-lesson app, close-before-switch | SvelteKit, vanilla | 4003 |
 | 4 | **guided-practice** | presenter | `speak()` + manual listen / tutor lines | SvelteKit, vanilla, Next, React Vite | 4004 |
 | 5 | **speak-playground** | presenter | Experiment with speak API | (see repo gallery) | 4005 |
+| 6 | **elevenlabs-embed** | BYO | ElevenLabs Agents → avatar | SvelteKit, vanilla, Next, React Vite | 4006 |
+| 7 | **openai-realtime-embed** | BYO | OpenAI Realtime → avatar | SvelteKit, vanilla, Next, React Vite | 4007 |
+| 8 | **deepgram-embed** | BYO | Deepgram Voice Agent → avatar (WS proxy) | SvelteKit, vanilla, Next, React Vite | 4008 |
+| 9 | **livekit-embed** | BYO | LiveKit remote agent audio → avatar | SvelteKit, vanilla, Next, React Vite | 4009 |
+| 10 | **gemini-live-embed** | BYO | Gemini Live → avatar (WS proxy) | SvelteKit, vanilla, Next, React Vite | 4010 |
 
 Routing:
 
@@ -48,6 +54,7 @@ Routing:
 - "Floating chat widget" → **2**  
 - "Lessons / education app" → **3**  
 - "Scripted tutor turns / speak API" → **4** or **5**  
+- "ElevenLabs / OpenAI / Deepgram / LiveKit / Gemini + Liforma avatar" → **6–10** (copy `helloByo.ts`)  
 - Evaluating Meet only (no code) → send them to https://www.liforma.ai/meet and stop
 
 ## Step 2 — Get credentials / origins early
@@ -80,10 +87,11 @@ Repo root `./start` can run the gallery + examples — see examples `README.md` 
 - TypeScript + normal CSS (no Tailwind)
 - Experience ids on lesson/app data (not secrets in `.env` unless deploy truly needs it)
 - Close-before-switch for multi-experience UIs
+- For BYO `*-embed`: copy **`helloByo.ts` / `helloByo.js`** (`startByoSpeech`) — that is the integration; DemoApp / page UI is scaffolding only
 
-**Adapt:** branding, copy, experience ids, surrounding chrome.
+**Adapt:** branding, copy, experience ids, surrounding chrome, vendor credentials / proxy env.
 
-If they outgrow the example, hand off to skill **`liforma-integrate`** for mint-path choice and production hardening.
+If they outgrow the example, hand off to skill **`liforma-integrate`** (including [byo-voice.md](../liforma-integrate/references/byo-voice.md)) for mint-path choice and production hardening.
 
 ## Step 5 — Done criteria
 

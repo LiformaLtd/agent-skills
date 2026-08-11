@@ -22,11 +22,11 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 
 | Skill | When to use |
 |-------|-------------|
-| `liforma-demo` | Try / clone a curated example before building from scratch |
-| `liforma-integrate` | Embed an Experience: mint path, Svelte/React/Next/vanilla, Thumbnail/Widget |
+| `liforma-demo` | Try / clone a curated example before building from scratch (incl. BYO `*-embed`) |
+| `liforma-integrate` | Embed an Experience: mint path, Svelte/React/Next/vanilla, Thumbnail/Widget, BYO voice |
 | `liforma-debug` | Silent avatar, auth/CORS, audio unlock, wrong CDN URL, mint failures |
 
-`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces) so the main skill stays short.
+`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short.
 
 ## Quick reference
 
@@ -35,6 +35,7 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 | "Show me a Liforma demo" | `liforma-demo` |
 | Corner chat widget | `liforma-demo` → experience-widget, or integrate → Widget |
 | Lesson / tutor app | `liforma-demo` → spanish-tutor / guided-practice |
+| ElevenLabs / OpenAI / Deepgram / LiveKit / Gemini → avatar | `liforma-demo` → `*-embed`, or integrate → byo-voice |
 | Production embed with API key | `liforma-integrate` → server mint |
 | Static site / allowlisted origin | `liforma-integrate` → browser mint |
 | Avatar silent / 403 on mint | `liforma-debug` |
@@ -51,12 +52,17 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 "My public-sessions mint returns 403"
 
 "Clone the basic-embed example and point it at my experience id"
+
+"Pipe ElevenLabs Agents audio into a Liforma avatar"
+
+"Add OpenAI Realtime BYO voice with @liforma/client/openai"
 ```
 
 ## Canonical docs (do not invent APIs)
 
 - https://docs.liforma.ai/llms.txt
 - https://docs.liforma.ai/getting-started/quick-start
+- https://docs.liforma.ai/avatar-experiences/bring-your-own-voice
 - https://examples.liforma.ai · https://github.com/LiformaLtd/examples.liforma.ai
 - Developer portal: https://app.liforma.ai
 - npm: [`@liforma/client`](https://www.npmjs.com/package/@liforma/client)

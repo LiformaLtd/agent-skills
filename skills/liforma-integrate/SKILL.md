@@ -12,7 +12,7 @@ description: >
 license: MIT
 metadata:
   author: liforma
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Liforma integration
@@ -110,14 +110,15 @@ Follow the reference guide. Shared principles for **every** path:
 
 ## Hard rules
 
-- Prefer server mint (`sessionEndpoint`) when a backend exists. Browser mint returns opaque `launch` — do not parse it.
+- Prefer server mint (`sessionEndpoint`) when a backend exists. Mint returns `{ session, launch }` — **`launch` is opaque**; do not parse, decode, or inspect it.
+- Prefer mint field **`locale`** (not language-first / flat public `capabilities` as the integrator story).
 - Do not invent top-level TTS/avatar helpers outside `Experience`.
 - Public speech is **`experience.speech.*`** (`speak` / `play` / `createUtterance` / `interrupt`) — never invent `experience.speak`.
 - **BYO voice:** prefer shipped helpers `@liforma/client/{elevenlabs,openai,deepgram,google,livekit}` (`connect*`). Do **not** invent alternate provider bridges or skip helpers to hand-roll WebSockets. Copy `helloByo.ts` from the matching `*-embed` example. Details: [references/byo-voice.md](references/byo-voice.md).
 - Deepgram / Gemini need a same-origin WebSocket proxy (BFF); examples document this — do not put vendor API keys in the browser.
-- Events use a common envelope `{ id, type, sessionId, timestamp, data }`. Prefer `activityChange` (`data`: `'idle' | 'listening' | 'thinking' | 'speaking'`). Do not use deprecated `modeChange`.
+- Events use a common envelope `{ id, type, sessionId, timestamp, data }`. Primary activity event is **`activityChange`** (`data`: `'idle' | 'listening' | 'thinking' | 'speaking'`). Do not teach bare `modeChange` or `onStateUpdate`.
 - `ConversationMessage` uses `status: 'final'`, not `final: boolean`.
-- Player `close` / `onPlayerStatusChange` come from `attach()` / component props, not only `experience.on()`.
+- Player `close` / **`onPlayerStatusChange`** come from `attach()` / component props, not only `experience.on()`.
 - Thumbnail = no session; Widget = light until expand — props may still iterate; trust current docs pages.
 
 ## What to consult

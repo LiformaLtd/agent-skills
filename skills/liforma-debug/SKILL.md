@@ -9,7 +9,7 @@ description: >
 license: MIT
 metadata:
   author: liforma
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Liforma debugging
@@ -87,7 +87,9 @@ Silent logic bugs — no HTTP error:
 
 - No `Liforma.textToSpeech()` — use `Experience` + modes / `speak()`, or BYO `connect*` helpers.  
 - Do not invent custom vendor bridges when `@liforma/client/{elevenlabs,openai,…}` exists.  
-- Prefer `activityChange` envelope (`data`: `'idle' | 'listening' | 'thinking' | 'speaking'`).  
+- Events are envelopes `{ id, type, sessionId, timestamp, data }`. Prefer **`activityChange`** (`data`: `'idle' | 'listening' | 'thinking' | 'speaking'`). Do not teach bare `modeChange` or `onStateUpdate`.  
+- Mint `{ session, launch }` — **`launch` is opaque**; do not parse it when debugging.  
+- Errors are `{ error: { code, message, requestId } }` plus `Liforma-Request-Id` header.  
 - `ConversationMessage.status === 'final'` (not `final: boolean`).  
 - `close` / `onPlayerStatusChange` from attach / component props.
 

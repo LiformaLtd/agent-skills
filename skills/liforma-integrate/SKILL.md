@@ -4,8 +4,8 @@ description: >
   Build a Liforma avatar Experience end-to-end. Assess the host stack, pick server vs browser
   mint, choose Svelte/React/Next/vanilla (or Thumbnail/Widget), and implement without inventing
   APIs. Use when: (1) embedding a talking avatar or Experience, (2) adding @liforma/client,
-  (3) minting sessions / sessionEndpoint / public-sessions, (4) ExperienceThumbnail or
-  ExperienceWidget, (5) user mentions Liforma, Session Manifest, exp_ ids, or lip-synced avatar
+  (3) minting sessions / sessionEndpoint / browser-sessions, (4) ExperienceThumbnail or
+  ExperienceWidget, (5) user mentions Liforma, Session Launch, exp_ ids, or lip-synced avatar
   in a web app, (6) migrating from a CDN script tag to the npm package, (7) bring-your-own voice
   (ElevenLabs, OpenAI Realtime, Deepgram, Gemini Live, LiveKit) via @liforma/client connect*
   helpers / externalSpeechAudio / createUtterance.
@@ -20,7 +20,7 @@ metadata:
 Liforma is an **Avatar Experience Platform**. Integrators ship Experiences — not raw STT/LLM/TTS APIs.
 
 ```text
-Experience (exp_…) → Session Manifest → @liforma/client
+Experience (exp_…) → Session Launch → @liforma/client
 ```
 
 **Canonical index:** https://docs.liforma.ai/llms.txt  
@@ -64,7 +64,7 @@ Has a backend that can keep secrets?
   → SERVER MINT  (POST /v1/sessions + same-origin sessionEndpoint)
 
 Client-only / static / quick demo?
-  → BROWSER MINT  (origin allowlist + POST /v1/public-sessions; path name is historical)
+  → BROWSER MINT  (origin allowlist + POST /v1/browser-sessions)
 
 Gallery card only (no conversation yet)?
   → ExperienceThumbnail  (no session)
@@ -110,7 +110,7 @@ Follow the reference guide. Shared principles for **every** path:
 
 ## Hard rules
 
-- Prefer server mint when a backend exists; `/public-sessions` name is historical.
+- Prefer server mint (`sessionEndpoint`) when a backend exists. Browser mint returns opaque `launch` — do not parse it.
 - Do not invent top-level TTS/avatar helpers outside `Experience`.
 - Public speech is **`experience.speech.*`** (`speak` / `play` / `createUtterance` / `interrupt`) — never invent `experience.speak`.
 - **BYO voice:** prefer shipped helpers `@liforma/client/{elevenlabs,openai,deepgram,google,livekit}` (`connect*`). Do **not** invent alternate provider bridges or skip helpers to hand-roll WebSockets. Copy `helloByo.ts` from the matching `*-embed` example. Details: [references/byo-voice.md](references/byo-voice.md).

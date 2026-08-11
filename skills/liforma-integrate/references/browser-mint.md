@@ -6,12 +6,12 @@
 
 ```text
 Browser (@liforma/client)
-  → POST https://api.liforma.ai/v1/public-sessions
-  → Session Manifest (if Origin is allowlisted)
+  → POST https://api.liforma.ai/v1/browser-sessions
+  → Session Launch { session, launch } (if Origin is allowlisted)
   → player.liforma.ai/embed
 ```
 
-The path name `/public-sessions` is **historical** — it is the browser-mint endpoint, not “only for public marketing pages.”
+`launch` is opaque — do not parse it. Prefer [server-mint.md](./server-mint.md) (`sessionEndpoint`) for authenticated products.
 
 ## Prerequisites
 
@@ -55,5 +55,5 @@ Vanilla:
 ## Docs
 
 - https://docs.liforma.ai/avatar-experiences/browser-embeds  
-- https://docs.liforma.ai/api-reference/public-sessions  
+- https://docs.liforma.ai/api-reference/browser-sessions  
 - https://docs.liforma.ai/getting-started/quick-start  

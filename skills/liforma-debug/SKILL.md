@@ -4,8 +4,8 @@ description: >
   Troubleshoot Liforma Experience embeds. Use when the avatar is silent, the iframe is blank,
   audio does not play, speak() does nothing, BYO connect* lipsync fails, sessions fail to start,
   mint returns 401/403, CORS/Origin errors appear, events look wrong, the wrong CDN script is
-  loaded, or Widget/Thumbnail misbehaves. Also use for "Liforma not working", "manifest error",
-  or "public-sessions failed".
+  loaded, or Widget/Thumbnail misbehaves. Also use for "Liforma not working", "Session Launch error",
+  or "browser-sessions failed".
 license: MIT
 metadata:
   author: liforma
@@ -32,7 +32,7 @@ Symptom → most likely cause → fix. Prefer shipped docs over inventing APIs.
 **Most likely: mint failed or never ran.**
 
 1. Valid `experienceId` (`exp_…`) the project can mint?  
-2. Network: `/v1/public-sessions` or your `sessionEndpoint` — status + JSON body.  
+2. Network: `/v1/browser-sessions` or your `sessionEndpoint` — status + JSON body (`{ session, launch }`).  
 3. Iframe loads `player.liforma.ai` (or local player when `stack=local`)?  
 4. Console: postMessage / CSP / mixed-content errors?
 
@@ -42,9 +42,9 @@ Symptom → most likely cause → fix. Prefer shipped docs over inventing APIs.
 
 | Path | Most likely cause |
 |------|-------------------|
-| Browser mint (`/v1/public-sessions`) | Origin not allowlisted (exact scheme + host + port) |
+| Browser mint (`/v1/browser-sessions`) | Origin not allowlisted (exact scheme + host + port) |
 | Server mint (`/v1/sessions`) | Missing/invalid API key; key used from the **browser** |
-| `sessionEndpoint` | Not same-origin; returns HTML/login instead of manifest JSON |
+| `sessionEndpoint` | Not same-origin; returns HTML/login instead of Session Launch JSON |
 
 **Fix:** portal Origins or server-side API key. Never paste the API key into frontend code to “bypass” 403.
 

@@ -8,9 +8,11 @@
 Browser  →  same-origin sessionEndpoint (POST)
          →  your server mints with API key
          →  POST https://api.liforma.ai/v1/sessions
-         →  Session Manifest JSON back to SDK
+         →  Session Launch { session, launch } back to SDK
          →  player.liforma.ai/embed
 ```
+
+`launch` is opaque — forward it; do not parse it.
 
 ## Prerequisites
 
@@ -21,7 +23,7 @@ Browser  →  same-origin sessionEndpoint (POST)
 ## Implementation outline
 
 1. Install `npm install @liforma/client`.
-2. Add a server route that accepts `{ experienceId, language? }`, calls `POST /v1/sessions` with the API key, returns the manifest JSON.
+2. Add a server route that accepts `{ experienceId, language? }`, calls `POST /v1/sessions` with the API key, returns the Session Launch JSON.
 3. Next.js App Router: prefer `createLiformaSessionRouteHandler` from `@liforma/client/next` (add real `authorize()` in production).
 4. Client:
 
@@ -36,7 +38,7 @@ Browser  →  same-origin sessionEndpoint (POST)
 
 ## Gotchas
 
-- Returning HTML (login page) or an error string from `sessionEndpoint` breaks the SDK — return manifest JSON or a clear JSON error.
+- Returning HTML (login page) or an error string from `sessionEndpoint` breaks the SDK — return Session Launch JSON or a clear JSON error.
 - Do not put the API key in `PUBLIC_*` / `VITE_*` / client bundles.
 - Authenticated products should reject unauthenticated mint in production (`allowUnauthenticated` is for demos only).
 

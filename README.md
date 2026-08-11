@@ -49,7 +49,7 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 
 "Embed exp_… with a server session endpoint in Next.js"
 
-"My public-sessions mint returns 403"
+"My browser-sessions mint returns 403"
 
 "Clone the basic-embed example and point it at my experience id"
 
@@ -68,7 +68,7 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 - npm: [`@liforma/client`](https://www.npmjs.com/package/@liforma/client)
 
 ```text
-Experience (exp_…) → Session Manifest → @liforma/client
+Experience (exp_…) → Session Launch → @liforma/client
 ```
 
 ## License

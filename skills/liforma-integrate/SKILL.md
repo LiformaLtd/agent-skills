@@ -119,6 +119,7 @@ Follow the reference guide. Shared principles for **every** path:
 - Events use a common envelope `{ id, type, sessionId, timestamp, data }`. Primary activity event is **`activityChange`** (`data`: `'idle' | 'listening' | 'thinking' | 'speaking'`). Do not teach bare `modeChange` or `onStateUpdate`.
 - `ConversationMessage` uses `status: 'final'`, not `final: boolean`.
 - Player `close` / **`onPlayerStatusChange`** come from `attach()` / component props, not only `experience.on()`.
+- Live scene framing: `experience.setFit('full' | 'medium' | 'face')` or the component `fit` prop / attribute — does not remint.
 - Thumbnail = no session; Widget = light until expand — props may still iterate; trust current docs pages.
 
 ## What to consult

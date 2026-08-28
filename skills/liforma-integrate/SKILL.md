@@ -8,11 +8,12 @@ description: >
   ExperienceWidget, (5) user mentions Liforma, Session Launch, exp_ ids, or lip-synced avatar
   in a web app, (6) migrating from a CDN script tag to the npm package, (7) bring-your-own voice
   (ElevenLabs, OpenAI Realtime, Deepgram, Gemini Live, LiveKit) via @liforma/client connect*
-  helpers / externalSpeechAudio / createUtterance.
+  helpers / externalSpeechAudio / createUtterance. For creating or publishing
+  Experiences with @liforma/publisher, use skill liforma-publish.
 license: MIT
 metadata:
   author: liforma
-  version: "1.3.0"
+  version: "1.3.1"
 ---
 
 # Liforma integration
@@ -65,6 +66,9 @@ Has a backend that can keep secrets?
 
 Client-only / static / quick demo?
   → BROWSER MINT  (origin allowlist + POST /v1/browser-sessions)
+
+Create wardrobe / set / character / publish from a server?
+  → Skill **liforma-publish** (`@liforma/publisher` 0.5 namespaces)
 
 Gallery card only (no conversation yet)?
   → ExperienceThumbnail  (no session)
@@ -134,4 +138,5 @@ Follow the reference guide. Shared principles for **every** path:
 - [references/browser-mint.md](references/browser-mint.md)  
 - [references/surfaces.md](references/surfaces.md)  
 - Skill `liforma-demo` if they want a runnable example first (including `*-embed` BYO demos)  
+- Skill `liforma-publish` if they need to author/publish an Experience from a server  
 - Skill `liforma-debug` if mint / audio / iframe fails  

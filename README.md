@@ -15,6 +15,7 @@ Or a single skill:
 ```bash
 npx skills add LiformaLtd/agent-skills --skill liforma-integrate
 npx skills add LiformaLtd/agent-skills --skill liforma-debug
+npx skills add LiformaLtd/agent-skills --skill liforma-publish
 npx skills add LiformaLtd/agent-skills --skill liforma-demo
 ```
 
@@ -24,9 +25,10 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 |-------|-------------|
 | `liforma-demo` | Try / clone a curated example before building from scratch (incl. BYO `*-embed`) |
 | `liforma-integrate` | Embed an Experience: mint path, Svelte/React/Next/vanilla, Thumbnail/Widget, BYO voice |
+| `liforma-publish` | Author and publish Experiences with `@liforma/publisher` 0.5 (server-only, namespaced) |
 | `liforma-debug` | Silent avatar, auth/CORS, audio unlock, wrong CDN URL, mint failures |
 
-`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short.
+`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short. `liforma-publish` teaches the namespaced `@liforma/publisher@0.5` authoring surface only.
 
 ## Quick reference
 
@@ -36,6 +38,7 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 | Corner chat widget | `liforma-demo` → experience-widget, or integrate → Widget |
 | Lesson / tutor app | `liforma-demo` → spanish-tutor / guided-practice |
 | ElevenLabs / OpenAI / Deepgram / LiveKit / Gemini → avatar | `liforma-demo` → `*-embed`, or integrate → byo-voice |
+| Create / publish an experience from a CMS | `liforma-publish` |
 | Production embed with API key | `liforma-integrate` → server mint |
 | Static site / allowlisted origin | `liforma-integrate` → browser mint |
 | Avatar silent / 403 on mint | `liforma-debug` |
@@ -56,6 +59,8 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 "Pipe ElevenLabs Agents audio into a Liforma avatar"
 
 "Add OpenAI Realtime BYO voice with @liforma/client/openai"
+
+"Publish a hotel check-in experience with @liforma/publisher"
 ```
 
 ## Canonical docs (do not invent APIs)
@@ -65,7 +70,7 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 - https://docs.liforma.ai/avatar-experiences/bring-your-own-voice
 - https://examples.liforma.ai · https://github.com/LiformaLtd/examples.liforma.ai
 - Developer portal: https://app.liforma.ai
-- npm: [`@liforma/client`](https://www.npmjs.com/package/@liforma/client)
+- npm: [`@liforma/client`](https://www.npmjs.com/package/@liforma/client) · [`@liforma/publisher`](https://docs.liforma.ai/_alpha/publisher-sdk) (alpha, server-only)
 
 ```text
 Experience (exp_…) → Session Launch → @liforma/client

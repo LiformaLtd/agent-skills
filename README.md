@@ -28,7 +28,7 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 | `liforma-publish` | Author and publish Experiences with `@liforma/publisher` 0.6 (server-only, namespaced; includes costumes) |
 | `liforma-debug` | Silent avatar, auth/CORS, audio unlock, wrong CDN URL, mint failures |
 
-`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short. `liforma-publish` teaches the namespaced `@liforma/publisher@0.6` authoring surface (`costumes`, `clothes`, `hair`, `costumeId` XOR layers).
+`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short. `liforma-publish` teaches `@liforma/publisher@0.7` (`experiences.createFrom`, namespaced resources, `costumeId` XOR layers).
 
 ## Quick reference
 

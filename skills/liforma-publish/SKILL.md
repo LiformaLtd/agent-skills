@@ -10,7 +10,7 @@ description: >
 license: MIT
 metadata:
   author: liforma
-  version: "1.1.0"
+  version: "1.2.0"
 ---
 
 # Liforma Publisher (alpha)
@@ -18,14 +18,15 @@ metadata:
 Server-only authoring. Live project API key (`lfm_live_…`). Never import `@liforma/publisher` in a browser bundle.
 
 ```text
-upload plates → backdrops / costumes|clothes+hair jobs → set + character → experience.publish
+prefer: experiences.createFrom(images + copy)
+or step-by-step: upload plates → backdrops / costumes|clothes+hair → set + character → experience.publish
 ```
 
 **Canonical:** https://docs.liforma.ai/_alpha/publisher-sdk  
 **REST walkthrough:** https://docs.liforma.ai/_alpha/programmatic-experience-creation  
 **OpenAPI:** https://docs.liforma.ai/_alpha/openapi/publisher.json  
 **Example:** https://github.com/LiformaLtd/examples.liforma.ai/tree/main/_alpha/examples/programmatic-publish  
-**Do not invent APIs.** `@liforma/publisher@0.6` is **namespaced**. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients.
+**Do not invent APIs.** `@liforma/publisher@0.7` is **namespaced**. Prefer `experiences.createFrom` for one-shot composition. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients.
 
 ## Step 1 — Confirm this is authoring, not embed
 
@@ -37,7 +38,42 @@ upload plates → backdrops / costumes|clothes+hair jobs → set + character →
 
 Need a project id + live API key from https://app.liforma.ai. Server env only: `LIFORMA_PROJECT_ID`, `LIFORMA_API_KEY`.
 
-## Step 2 — Copy a shipped shape
+## Step 2 — Prefer createFrom
+
+```ts
+import { readFileSync } from 'node:fs';
+import { createPublisher } from '@liforma/publisher';
+
+const publisher = createPublisher(process.env.LIFORMA_PROJECT_ID!, {
+  apiKey: process.env.LIFORMA_API_KEY!
+});
+
+const avatars = await publisher.avatars.list();
+const avatar = avatars[0]!;
+
+const result = await publisher.experiences.createFrom({
+  title: 'Hotel check-in',
+  backdrop: {
+    image: { bytes: readFileSync('./lobby.png'), contentType: 'image/png' }
+  },
+  character: {
+    avatarId: avatar.id,
+    name: 'Front desk',
+    voice: avatar.defaultVoiceId,
+    sttLang: avatar.defaultSttLang,
+    personality: 'Friendly hotel receptionist'
+  },
+  startingMessage: 'Good evening. How may I help you?',
+  systemInstructions: 'The customer is checking in.',
+  publish: true
+});
+
+console.log(result.experience.id, result.created);
+```
+
+`ImageSource`: `Blob` | `{ bytes, contentType }` | `{ url }` (copy into Liforma — never a permanent URL dependency) | `{ uploadId }`. Reuse with `{ id }` on backdrop/character/plates. Errors keep the underlying `code` and add `context.step`.
+
+## Step 3 — Or copy a low-level shipped shape
 
 Prefer shipped examples over a greenfield script. Use **either** a whole costume **or** composite clothes + hair — never both on one character.
 

@@ -68,7 +68,7 @@ Client-only / static / quick demo?
   → BROWSER MINT  (origin allowlist + POST /v1/browser-sessions)
 
 Create wardrobe / set / character / publish from a server?
-  → Skill **liforma-publish** (`@liforma/publisher` 0.5 namespaces)
+  → Skill **liforma-publish** (`@liforma/publisher` 0.6 namespaces, including costumes)
 
 Gallery card only (no conversation yet)?
   → ExperienceThumbnail  (no session)

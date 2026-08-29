@@ -3,13 +3,14 @@ name: liforma-publish
 description: >
   Create and publish Liforma Experiences from a server with @liforma/publisher.
   Use when: (1) programmatic authoring or CMS publish, (2) creating characters,
-  clothes, hair, sets, or backdrops via API, (3) the user mentions Publisher SDK,
-  lfm_live_ keys, /v1/projects, or "publish an experience from code", (4) updating
-  first-party Publisher examples. Not for Session Launch embeds — use liforma-integrate.
+  costumes, clothes, hair, sets, or backdrops via API, (3) the user mentions
+  Publisher SDK, lfm_live_ keys, /v1/projects, or "publish an experience from
+  code", (4) updating first-party Publisher examples. Not for Session Launch
+  embeds — use liforma-integrate.
 license: MIT
 metadata:
   author: liforma
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Liforma Publisher (alpha)
@@ -17,14 +18,14 @@ metadata:
 Server-only authoring. Live project API key (`lfm_live_…`). Never import `@liforma/publisher` in a browser bundle.
 
 ```text
-upload plates → backdrops / clothes / hair jobs → set + character → experience.publish
+upload plates → backdrops / costumes|clothes+hair jobs → set + character → experience.publish
 ```
 
 **Canonical:** https://docs.liforma.ai/_alpha/publisher-sdk  
 **REST walkthrough:** https://docs.liforma.ai/_alpha/programmatic-experience-creation  
 **OpenAPI:** https://docs.liforma.ai/_alpha/openapi/publisher.json  
 **Example:** https://github.com/LiformaLtd/examples.liforma.ai/tree/main/_alpha/examples/programmatic-publish  
-**Do not invent APIs.** `@liforma/publisher@0.5` is **namespaced**. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients.
+**Do not invent APIs.** `@liforma/publisher@0.6` is **namespaced**. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients.
 
 ## Step 1 — Confirm this is authoring, not embed
 
@@ -36,9 +37,13 @@ upload plates → backdrops / clothes / hair jobs → set + character → experi
 
 Need a project id + live API key from https://app.liforma.ai. Server env only: `LIFORMA_PROJECT_ID`, `LIFORMA_API_KEY`.
 
-## Step 2 — Copy the hotel-check-in shape
+## Step 2 — Copy a shipped shape
 
-Prefer the shipped example over a greenfield script:
+Prefer shipped examples over a greenfield script. Use **either** a whole costume **or** composite clothes + hair — never both on one character.
+
+### Whole look (`costumeId`)
+
+One full-body plate under `costumes/whole/`:
 
 ```ts
 import { createPublisher } from '@liforma/publisher';
@@ -49,14 +54,50 @@ const publisher = createPublisher(process.env.LIFORMA_PROJECT_ID!, {
 
 const avatars = await publisher.avatars.list();
 const avatar = avatars[0]!;
+// avatars.list() returns costumes[], clothes[], and hair[] separately (0.6+)
 
 const background = await publisher.uploadImage(lobbyPng, { contentType: 'image/png' });
-const backdrop = await publisher.backdrops.create({ name: 'Hotel lobby', image: background });
-const set = await publisher.sets.create({ name: 'Hotel lobby', backdropId: backdrop.id });
+const backdrop = await publisher.backdrops.create({ name: 'Exam room', image: background });
+const set = await publisher.sets.create({ name: 'Exam room', backdropId: backdrop.id });
 
+const costume = await publisher.costumes.create({
+  avatarId: avatar.id,
+  image: wholeLookImage,
+  backgroundMode: 'remove'
+});
+
+const character = await publisher.characters.create({
+  avatarId: avatar.id,
+  name: 'Examiner',
+  voice: avatar.defaultVoiceId,
+  sttLang: avatar.defaultSttLang,
+  costumeId: costume.id
+});
+
+const experience = await publisher.experiences.create({
+  title: 'Language exam',
+  characterId: character.id,
+  setId: set.id,
+  publish: true
+});
+```
+
+### Composite look (`clothesId` + `hairId`)
+
+Layer plates under `costumes/composite/…`:
+
+```ts
 const [clothes, hair] = await Promise.all([
-  publisher.clothes.create({ avatarId: avatar.id, image: clothesImage, backgroundMode: 'remove' }),
-  publisher.hair.create({ avatarId: avatar.id, image: hairImage, backgroundMode: 'remove' })
+  publisher.clothes.create({
+    avatarId: avatar.id,
+    image: clothesImage,
+    backgroundMode: 'remove'
+  }),
+  publisher.hair.create({
+    avatarId: avatar.id,
+    image: hairImage,
+    backgroundMode: 'remove'
+  })
 ]);
 
 const character = await publisher.characters.create({
@@ -67,13 +108,6 @@ const character = await publisher.characters.create({
   clothesId: clothes.id,
   hairId: hair.id
 });
-
-const experience = await publisher.experiences.create({
-  title: 'Hotel check-in',
-  characterId: character.id,
-  setId: set.id,
-  publish: true
-});
 ```
 
 Namespaces:
@@ -82,6 +116,7 @@ Namespaces:
 publisher.avatars.list()
 publisher.backdrops.startCreate / create / get / archive / restore / delete
 publisher.sets.*
+publisher.costumes.*
 publisher.clothes.*
 publisher.hair.*
 publisher.characters.*
@@ -91,7 +126,7 @@ publisher.jobs.get / wait / watch / retry
 
 ## Step 3 — Jobs and options
 
-Job-backed resources (backdrops, clothes, hair): `create()` = `startCreate()` → `jobs.wait` → `resource.get(targetId)`.
+Job-backed resources (backdrops, costumes, clothes, hair): `create()` = `startCreate()` → `jobs.wait` → `resource.get(targetId)`.
 
 - `jobs.wait()` returns the **job**, not the resource.
 - `jobs.watch()` is an async iterator. It does not take `onProgress`.
@@ -110,12 +145,13 @@ const backdrop = await publisher.backdrops.get(completed.targetId);
 
 - REST stays project-scoped: `/v1/projects/{projectId}/…`.
 - Experience create/update input uses **`setId`** (not `placeId`). Backdrop ids are `bdrop_…`.
-- Clothes + hair are composite layers. Do not invent `publisher.costumes` or `costumeId` until docs ship them.
+- Whole looks use `publisher.costumes` + character `costumeId`. Composite looks use `publisher.clothes` + `publisher.hair` with `clothesId` / `hairId`. Do not combine `costumeId` with layer ids.
 - `experiences.update` writes the draft. `experiences.publish` snapshots a revision. `publish: true` on create is allowed.
 - Prefer `status`, `hasPublishedRevision`, `hasUnpublishedChanges`. Treat `published` as a deprecated 0.x alias.
 - `delete()` is after archive only and returns `{ deleted: true, id }`.
 - Job errors are `{ code, category, retryable, message }`.
-- Align snippets with docs `publisherHotelCheckIn` / `publisherJobs` — do not reintroduce flat SDK methods.
+- Align snippets with docs `publisherHotelCheckIn` / `publisherHotelExaminer` / `publisherJobs` — do not reintroduce flat SDK methods.
+- Install `@liforma/publisher@^0.6.0` for costumes. Stay on 0.5 only against an API that does not emit `avatars.list().costumes`.
 
 ## What to consult
 
@@ -123,5 +159,5 @@ const backdrop = await publisher.backdrops.get(completed.targetId);
 - https://docs.liforma.ai/_alpha/publisher-sdk  
 - https://docs.liforma.ai/_alpha/programmatic-experience-creation  
 - https://docs.liforma.ai/_alpha/openapi/publisher.json  
-- npm: [`@liforma/publisher`](https://www.npmjs.com/package/@liforma/publisher) — use the namespaced **0.5** surface in docs, even if an older tag is still cached locally
+- npm: [`@liforma/publisher`](https://www.npmjs.com/package/@liforma/publisher) — namespaced **0.6** surface (`publisher.costumes`, character `costumeId`)
 - Skill `liforma-integrate` once they have an `exp_…` to embed  

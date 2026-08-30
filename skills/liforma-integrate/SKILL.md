@@ -105,6 +105,7 @@ Follow the reference guide. Shared principles for **every** path:
    Preserve TypeScript, normal CSS (no Tailwind), and experience ids on app data.
 5. **Audio unlock before `speak()`.** Call speak after start / user gesture (`onStarted` or equivalent).
 6. **Align with shipped docs** for events and payloads — see Hard rules below.
+7. **Marketing attribution is automatic** on SDK mint (page UTMs + referrer). Do not parse `URLSearchParams` unless you need a stored first-touch snapshot. REST mint is explicit `attribution` only. Conversions: `experience.conversion('key')` or `POST /v1/sessions/{id}/conversions`.
 
 ### Portal checklist (before claiming done)
 

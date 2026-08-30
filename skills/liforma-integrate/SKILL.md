@@ -71,7 +71,8 @@ Create wardrobe / set / character / publish from a server?
   → Skill **liforma-publish** (`@liforma/publisher` 0.6 namespaces, including costumes)
 
 Gallery card only (no conversation yet)?
-  → ExperienceThumbnail  (no session)
+  → ExperienceThumbnail from `@liforma/client/{svelte,react,next}/thumbnail`
+     (or CDN `sdk/v2/thumbnail.js`) — **not** the full `/svelte` / `/react` barrel
 
 Corner launcher → expand to talk?
   → ExperienceWidget

@@ -126,7 +126,7 @@ Follow the reference guide. Shared principles for **every** path:
 - `ConversationMessage` uses `status: 'final'`, not `final: boolean`.
 - Player `close` / **`onPlayerStatusChange`** come from `attach()` / component props, not only `experience.on()`.
 - Live scene framing: `experience.setFit('full' | 'medium' | 'face')` or the component `fit` prop / attribute — does not remint.
-- Player interaction chrome (captions, typed input, character speech mute, Edit): `experience.setInteraction({ … })` / `getInteraction()` and event **`interactionChange`**. Defaults stay voice-first; authored via Experience `interaction` in Studio.
+- Player interaction: authored `interaction` (state, `controls` visibility, `allow*` capability) plus live `experience.setInteraction({ … })` / `getInteraction()` and event **`interactionChange`**. Hiding a control does not change state. `showUserSpeech: false` hides user bubbles and the listening graphic. Defaults stay voice-first.
 - Thumbnail = no session; Widget = light until expand — props may still iterate; trust current docs pages.
 
 ## What to consult

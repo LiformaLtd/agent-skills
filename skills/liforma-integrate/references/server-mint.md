@@ -23,8 +23,8 @@ Browser  →  same-origin sessionEndpoint (POST)
 ## Implementation outline
 
 1. Install `npm install @liforma/client`.
-2. Add a server route that accepts `{ experienceId, language? }`, calls `POST /v1/sessions` with the API key, returns the Session Launch JSON.
-3. Next.js App Router: prefer `createLiformaSessionRouteHandler` from `@liforma/client/next` (add real `authorize()` in production).
+2. Add a server route that accepts `{ experienceId, language?, alreadyConverted? }`, calls `POST /v1/sessions` with the API key, returns the Session Launch JSON.
+3. Next.js App Router: prefer `createLiformaSessionRouteHandler` from `@liforma/client/next` (add real `authorize()` in production). `authorize` may mutate the body (for example `body.alreadyConverted = user ? ['registration'] : undefined`).
 4. Client:
 
 ```svelte
@@ -35,6 +35,8 @@ Browser  →  same-origin sessionEndpoint (POST)
 ```
 
 (or React / imperative `Experience.startSession` + `attach` — same contract)
+
+Pass `alreadyConverted: ['registration']` when the visitor is already registered so conversion rate uses an eligible denominator.
 
 ## Gotchas
 

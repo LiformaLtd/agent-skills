@@ -25,10 +25,10 @@ npx skills add LiformaLtd/agent-skills --skill liforma-demo
 |-------|-------------|
 | `liforma-demo` | Try / clone a curated example before building from scratch (incl. BYO `*-embed`) |
 | `liforma-integrate` | Embed an Experience: mint path, Svelte/React/Next/vanilla, Thumbnail/Widget, BYO voice |
-| `liforma-publish` | Author and publish Experiences with `@liforma/publisher` 0.6 (server-only, namespaced; includes costumes) |
+| `liforma-publish` | Author and publish Experiences with `@liforma/publisher` 0.9 (server-only, namespaced; includes costumes and same-org library move) |
 | `liforma-debug` | Silent avatar, auth/CORS, audio unlock, wrong CDN URL, mint failures |
 
-`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short. `liforma-publish` teaches `@liforma/publisher@0.7` (`experiences.createFrom`, namespaced resources, `costumeId` XOR layers).
+`liforma-integrate` loads detail from `skills/liforma-integrate/references/` (server mint, browser mint, surfaces, **byo-voice**) so the main skill stays short. `liforma-publish` teaches `@liforma/publisher@0.9` (`experiences.createFrom`, namespaced resources, `costumeId` XOR layers, same-org `library.move`).
 
 ## Quick reference
 

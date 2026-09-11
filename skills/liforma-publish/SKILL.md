@@ -10,7 +10,7 @@ description: >
 license: MIT
 metadata:
   author: liforma
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # Liforma Publisher (alpha)
@@ -26,7 +26,7 @@ or step-by-step: upload plates → backdrops / costumes|clothes+hair → set + c
 **REST walkthrough:** https://docs.liforma.ai/_alpha/programmatic-experience-creation  
 **OpenAPI:** https://docs.liforma.ai/_alpha/openapi/publisher.json  
 **Example:** https://github.com/LiformaLtd/examples.liforma.ai/tree/main/_alpha/examples/programmatic-publish  
-**Do not invent APIs.** `@liforma/publisher@0.7` is **namespaced**. Prefer `experiences.createFrom` for one-shot composition. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients.
+**Do not invent APIs.** `@liforma/publisher@0.9` is **namespaced**. Prefer `experiences.createFrom` for one-shot composition. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients. Same-org project move uses `publisher.library.move` / `publisher.experiences.move` (destination client + required `sourceApiKey` on every call, including dry-run). That is enable/detach/reparent — not cross-org remix.
 
 ## Step 1 — Confirm this is authoring, not embed
 
@@ -156,10 +156,12 @@ publisher.costumes.*
 publisher.clothes.*
 publisher.hair.*
 publisher.characters.*
-publisher.experiences.create / get / update / archive / restore / delete / publish
+publisher.experiences.create / get / update / archive / restore / delete / publish / move
+publisher.library.move
 publisher.jobs.get / wait / watch / retry
 ```
 
+Same-org move (not remix): construct the client for the **destination** project. Pass `sourceApiKey` on every `library.move` / `experiences.move` call (including `dryRun: true`). Preview first; commit only when `blockers` is empty.
 ## Step 3 — Jobs and options
 
 Job-backed resources (backdrops, costumes, clothes, hair): `create()` = `startCreate()` → `jobs.wait` → `resource.get(targetId)`.

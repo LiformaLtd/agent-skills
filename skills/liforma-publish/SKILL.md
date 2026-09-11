@@ -161,7 +161,7 @@ publisher.library.move
 publisher.jobs.get / wait / watch / retry
 ```
 
-Same-org move (not remix): construct the client for the **destination** project. Pass `sourceApiKey` on every `library.move` / `experiences.move` call (including `dryRun: true`). Preview first; commit only when `blockers` is empty.
+Same-org move (not remix): construct the client for the **destination** project. Pass `sourceApiKey` on every `library.move` / `experiences.move` call (including `dryRun: true`). Preview first; commit only when `blockers` is empty. Optional `copyMissingOrigins: true` copies source **project** allowed origins missing on dest when experiences move (default off; warning `ORIGINS_WILL_COPY`).
 ## Step 3 — Jobs and options
 
 Job-backed resources (backdrops, costumes, clothes, hair): `create()` = `startCreate()` → `jobs.wait` → `resource.get(targetId)`.

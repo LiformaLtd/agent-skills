@@ -100,7 +100,7 @@ Then implement using the matching reference — do not improvise mint HTTP shape
 Follow the reference guide. Shared principles for **every** path:
 
 1. **Secrets stay on the server.** API keys never ship to the browser. If you see a key in client code, stop and restructure.
-2. **Start from a known-good experience id** for demos: `exp_01EXAMPLES_COFFEE_BARISTA` (browser mint + allowlisted origin), or a project `exp_…` from [app.liforma.ai](https://app.liforma.ai).
+2. **Start from a known-good experience id** for demos: `exp_T0I7ACMQLBMPG6K` (browser mint + allowlisted origin), or a project `exp_…` from [app.liforma.ai](https://app.liforma.ai).
 3. **CDN is v2 only:** `https://cdn.liforma.ai/sdk/v2/client.js` — never v1.
 4. **Prefer examples over greenfield structure:** https://github.com/LiformaLtd/examples.liforma.ai · gallery https://examples.liforma.ai  
    Preserve TypeScript, normal CSS (no Tailwind), and experience ids on app data.

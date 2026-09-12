@@ -26,20 +26,20 @@ Optional peers: `svelte` ^5; `react` / `react-dom` ^18 \|\| ^19; `@elevenlabs/cl
   import { Experience } from '@liforma/client/svelte';
 </script>
 
-<Experience experienceId="exp_01EXAMPLES_COFFEE_BARISTA" />
+<Experience experienceId="exp_T0I7ACMQLBMPG6K" />
 ```
 
 ```tsx
 import { Experience } from '@liforma/client/react';
 
 export function Demo() {
-  return <Experience experienceId="exp_01EXAMPLES_COFFEE_BARISTA" />;
+  return <Experience experienceId="exp_T0I7ACMQLBMPG6K" />;
 }
 ```
 
 ```html
 <script src="https://cdn.liforma.ai/sdk/v2/client.js" defer></script>
-<liforma-experience experience-id="exp_01EXAMPLES_COFFEE_BARISTA"></liforma-experience>
+<liforma-experience experience-id="exp_T0I7ACMQLBMPG6K"></liforma-experience>
 ```
 
 ## Related components

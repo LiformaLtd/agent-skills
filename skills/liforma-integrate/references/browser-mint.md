@@ -23,7 +23,7 @@ Browser (@liforma/client)
 
 For hello-world against public examples (when your origin is allowlisted for demos):
 
-`exp_T0I7ACMQLBMPG6K`
+`exp_t0i7acmq`
 
 Meet gallery: https://www.liforma.ai/meet
 
@@ -36,14 +36,14 @@ Framework:
   import { Experience } from '@liforma/client/svelte';
 </script>
 
-<Experience experienceId="exp_T0I7ACMQLBMPG6K" />
+<Experience experienceId="exp_t0i7acmq" />
 ```
 
 Vanilla:
 
 ```html
 <script src="https://cdn.liforma.ai/sdk/v2/client.js" defer></script>
-<liforma-experience experience-id="exp_T0I7ACMQLBMPG6K"></liforma-experience>
+<liforma-experience experience-id="exp_t0i7acmq"></liforma-experience>
 ```
 
 ## Gotchas

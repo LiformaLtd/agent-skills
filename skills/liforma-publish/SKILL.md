@@ -185,6 +185,7 @@ const backdrop = await publisher.backdrops.get(completed.targetId);
 - Experience create/update input uses **`setId`** (not `placeId`). Backdrop ids are `bdrop_…`.
 - Whole looks use `publisher.costumes` + character `costumeId`. Composite looks use `publisher.clothes` + `publisher.hair` with `clothesId` / `hairId`. Do not combine `costumeId` with layer ids.
 - `experiences.update` writes the draft. `experiences.publish` snapshots a revision. `publish: true` on create is allowed.
+- Experience `id` is the Liforma `exp_` id. `externalId` is the integrator key. Use `getByExternalId`, `updateByExternalId`, `publishByExternalId`, `archiveByExternalId`, `restoreByExternalId`, and `deleteByExternalId` when only that key is known. REST path: `/v1/projects/{projectId}/experiences/by-external-id/{externalId}`.
 - Prefer `status`, `hasPublishedRevision`, `hasUnpublishedChanges`. Treat `published` as a deprecated 0.x alias.
 - `delete()` is after archive only and returns `{ deleted: true, id }`.
 - Job errors are `{ code, category, retryable, message }`.

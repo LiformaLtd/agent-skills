@@ -10,7 +10,7 @@ description: >
 license: MIT
 metadata:
   author: liforma
-  version: "1.3.0"
+  version: "1.4.0"
 ---
 
 # Liforma Publisher (alpha)
@@ -26,7 +26,9 @@ or step-by-step: upload plates → backdrops / costumes|clothes+hair → set + c
 **REST walkthrough:** https://docs.liforma.ai/_alpha/programmatic-experience-creation  
 **OpenAPI:** https://docs.liforma.ai/_alpha/openapi/publisher.json  
 **Example:** https://github.com/LiformaLtd/examples.liforma.ai/tree/main/_alpha/examples/programmatic-publish  
-**Do not invent APIs.** `@liforma/publisher@0.9` is **namespaced**. Prefer `experiences.createFrom` for one-shot composition. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients. Same-org project move uses `publisher.library.move` / `publisher.experiences.move` (destination client + required `sourceApiKey` on every call, including dry-run). That is enable/detach/reparent — not cross-org remix.
+**Do not invent APIs.** `@liforma/publisher@0.10` is **namespaced**. Prefer `experiences.createFrom` for one-shot composition. There are no flat `createCharacter` / `createClothes` / `listAvatars` methods and no Place or Location SDK clients. Same-org project move uses `publisher.library.move` / `publisher.experiences.move` (destination client + required `sourceApiKey` on every call, including dry-run). That is enable/detach/reparent — not cross-org remix.
+
+`id` is Liforma's public id: a type prefix plus 8 lowercase characters (`proj_`, `exp_`, `char_`, `set_`, `bdrop_`, `avatar_`, `clothes_`, `hair_`, `costume_`). `externalId` is the caller's own key. Pass `proj_<8>` to `createPublisher({ projectId, apiKey })`. Do not send a bare Studio suffix or a database id. A returned `id` is reused as-is, including `jobs.wait` then `backdrops.get(job.targetId)`.
 
 ## Step 1 — Confirm this is authoring, not embed
 
@@ -192,7 +194,7 @@ const backdrop = await publisher.backdrops.get(completed.targetId);
 - `delete()` is after archive only and returns `{ deleted: true, id }`.
 - Job errors are `{ code, category, retryable, message }`.
 - Align snippets with docs `publisherHotelCheckIn` / `publisherHotelExaminer` / `publisherJobs` — do not reintroduce flat SDK methods.
-- Install `@liforma/publisher@^0.6.0` for costumes. Stay on 0.5 only against an API that does not emit `avatars.list().costumes`.
+- Install `@liforma/publisher@^0.10.0`.
 
 ## What to consult
 
@@ -200,5 +202,5 @@ const backdrop = await publisher.backdrops.get(completed.targetId);
 - https://docs.liforma.ai/_alpha/publisher-sdk  
 - https://docs.liforma.ai/_alpha/programmatic-experience-creation  
 - https://docs.liforma.ai/_alpha/openapi/publisher.json  
-- npm: [`@liforma/publisher`](https://www.npmjs.com/package/@liforma/publisher) — namespaced **0.6** surface (`publisher.costumes`, character `costumeId`)
+- npm: [`@liforma/publisher`](https://www.npmjs.com/package/@liforma/publisher) — namespaced **0.10** surface (`publisher.costumes`, character `costumeId`, public `proj_` / `char_` / `set_` / `bdrop_` ids)
 - Skill `liforma-integrate` once they have an `exp_…` to embed  

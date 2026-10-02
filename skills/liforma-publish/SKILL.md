@@ -44,7 +44,8 @@ Need a project id + live API key from https://app.liforma.ai. Server env only: `
 import { readFileSync } from 'node:fs';
 import { createPublisher } from '@liforma/publisher';
 
-const publisher = createPublisher(process.env.LIFORMA_PROJECT_ID!, {
+const publisher = createPublisher({
+  projectId: process.env.LIFORMA_PROJECT_ID!,
   apiKey: process.env.LIFORMA_API_KEY!
 });
 
@@ -84,7 +85,8 @@ One full-body plate under `costumes/whole/`:
 ```ts
 import { createPublisher } from '@liforma/publisher';
 
-const publisher = createPublisher(process.env.LIFORMA_PROJECT_ID!, {
+const publisher = createPublisher({
+  projectId: process.env.LIFORMA_PROJECT_ID!,
   apiKey: process.env.LIFORMA_API_KEY!
 });
 

@@ -97,6 +97,8 @@ const avatar = avatars[0]!;
 // avatars.list() returns costumes[], clothes[], and hair[] separately (0.6+)
 
 const background = await publisher.uploadImage(lobbyPng, { contentType: 'image/png' });
+// Optional RGBA foreground (same 16∶9 size) so the avatar stands between layers:
+// foreground: { image: deskRgbaPng }
 const backdrop = await publisher.backdrops.create({ name: 'Exam room', image: background });
 const set = await publisher.sets.create({ name: 'Exam room', backdropId: backdrop.id });
 
